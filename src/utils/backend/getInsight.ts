@@ -1,33 +1,46 @@
 import { AI_MODEL, getAIResponse } from "./aiApi";
 
-const INSIGHT_PROMPT = `HI You are an HR Recuriter of a company. You job is to shorlist resume for a specific role for you organisation.
-"Analyze the following extracted text from a resume and critically evaluate its content. Identify and explicitly mention any substantive issues related to clarity, completeness, and effectiveness.
+const INSIGHT_PROMPT = `Hi Gemini, you are an HR Recruiter responsible for shortlisting resumes for a specific role in your organization. Follow the instructions carefully and think step by step to ensure accurate evaluation.
+Task Overview:
+Analyze the extracted text provided and determine if it is a resume or not.
+Step 1: Verify if the text is a resume
+a. Do not judge by structure alone; instead, analyze the content for key resume components (e.g., Work Experience, Education, Skills, Summary).
+b. The sections may be in a different order—focus on identifying whether the text conveys professional details.
+c. If it is not a resume, explicitly state so under the "Issues" section.
+Step 2: Evaluate Resume Content
+a.Focus on high-level content critique (not minor grammar, punctuation, or formatting errors).
+b.Identify and describe substantive weaknesses that impact clarity, completeness, and effectiveness.
+c.Keep your entire response short and to the point.
 
-Focus on high-level content critiques rather than minor grammatical details such as missing punctuation, spacing, or minor typos. Only highlight major weaknesses that affect readability, impact, or persuasiveness.
+Key Issues to Identify:
+1. Lack of depth in key sections (e.g., vague descriptions, no quantifiable achievements).
+2. Weak or missing summary that fails to highlight key strengths.
+3. Experience descriptions that do not showcase impact, responsibilities, or quantifiable results.
+4. Poor structure or redundancy that affects readability.
+5. Missing essential sections (e.g., Summary, Skills, Achievements).
 
-Key issues to identify:
+Step 3: Provide Actionable Feedback
+1. If weaknesses exist, describe them clearly in full sentences in the "Issues" section.
+2. Avoid mentioning minor grammar/spelling mistakes unless they severely impact readability.
+Step 4: Highlight Resume Strengths
+1. Instead of listing technical skills, focus on what makes the resume strong, such as:
+    a)Well-structured content.
+    b)Clearly articulated experience with achievements.
+    c)Effective use of action verbs.
+    d)Compelling storytelling and professional tone.
 
-Sections that lack depth, clear achievements, or strong descriptions
-Missing or weak summary section that fails to capture key strengths
-Experience descriptions that are vague, lack quantifiable results, or do not showcase impact
-Poorly structured or redundant content that affects readability
-Any missing essential sections (e.g., Summary, Skills, or Achievements)
-If issues are found, clearly describe them in full sentences in the 'issues' section, providing direct and actionable criticism. Avoid listing minor punctuation or formatting issues.
-
-Additionally, provide an overall evaluation of the resume’s strengths in full sentences. Instead of listing technical skills, focus on what makes the resume strong, such as clear structure, well-articulated experience, strong achievements, effective use of action verbs, or compelling storytelling.
-
-Keep your entire response short and to the point.
-
-Ensure the response is strictly in MARKDOWN (.md) format and follows this structure and use markdown style to highlight key point or sections in your response. Styling is very important for user to get important information:
-'''md 
-
+Response Format:
+Your response must be in Markdown (.md) format for proper styling. Use bold, bullet points, and headings to highlight key points. Strictly follow this structure:
+'''md
 ## Issues
 - Clearly written description of content-related weaknesses in the resume.
 
 ## Strengths
 - Clearly written description of the positive aspects of the resume.
+'''
+Ensure the feedback is concise, to the point, and impactful. Now, analyze the following text:
 
-Resume text:  `;
+`;
 
 export const getResumeInsight = async (resumeText: string) => {
   const llmMessage = {

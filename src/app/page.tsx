@@ -2,15 +2,18 @@
 import { useState } from "react";
 import { UploadCloud, CheckCircle } from "lucide-react";
 import {
+  GET_INSIGHT_LOADING_MESSAGE,
   LANDING_BODY,
   LANDING_HEADER,
   LANDING_HEADER_SECOND,
+  PROCESSING,
 } from "@/utils/frontend/allHeading";
 import api from "@/utils/frontend/api";
 import { DefaultDataResponse, ResponseType } from "@/utils/responseType";
 import { HttpStatusCode } from "axios";
 import InsightModal from "@/components/InsightModal";
 import LoadingDot from "@/components/LoadingDot";
+import Alert from "@/components/Alert";
 
 interface CardProps {
   children: React.ReactNode;
@@ -58,22 +61,25 @@ const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
 
 export default function LandingPage() {
   // const [file, setFile] = useState<File | null>(null);
-  const [insight, setInsight] = useState<string>(
-    `## Heading\n\nThis is **bold** and _italic_.\n\n- Item 1\n- Item 2 \n ${iMEssage}`
-  );
+  // const [insight, setInsight] = useState<string>(`${iMEssage.slice(1, -1)}`);
+  const [loadingMessage, setLoadingMessage] = useState<string>("");
+  const [insight, setInsight] = useState<string>("");
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const uploadedFile = event.target.files?.[0];
+    console.log(uploadedFile);
     if (uploadedFile) {
+      setLoadingMessage(GET_INSIGHT_LOADING_MESSAGE);
       const formData = new FormData();
       formData.append("resume", uploadedFile);
       const res = await api
         .post<ResponseType<DefaultDataResponse>>("/resume", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
-        .catch((e) => console.error(e));
+        .catch((e) => console.error(e))
+        .finally(() => setLoadingMessage(""));
       if (res && res?.status === HttpStatusCode.Ok) {
         const responseData = res?.data;
         const message = responseData?.message ?? "File Uploaded Sussfully";
@@ -89,9 +95,14 @@ export default function LandingPage() {
         aria-hidden="true"
         className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20"
       >
-        <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-100 dark:from-blue-700"></div>
-        <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-100 dark:to-indigo-600"></div>
+        <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-400"></div>
+        <div className="blur-[106px] h-46 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-300"></div>
       </div>
+      {loadingMessage.length ? (
+        <Alert message={loadingMessage} title={PROCESSING} color="blue" />
+      ) : (
+        <></>
+      )}
       <div className="relative pt-36 ml-auto">
         <div className="lg:w-2/3 text-center mx-auto">
           <h1 className="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">
@@ -120,12 +131,11 @@ export default function LandingPage() {
                 id="resume-upload"
                 type="file"
                 className="hidden"
-                disabled
+                disabled={loadingMessage.length > 0}
                 onChange={handleFileUpload}
               />
               <span className="relative text-base font-semibold text-white">
-                <LoadingDot />
-                Upload Resume
+                {loadingMessage.length ? <LoadingDot /> : "Upload Resume"}
               </span>
             </label>
             <a

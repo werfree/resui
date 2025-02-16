@@ -1,7 +1,9 @@
 import React from "react";
 
 function LoadingDot() {
-  return <span className="loading loading-dots loading-lg"></span>;
+  return (
+    <span className="loading loading-dots justify-center loading-lg"></span>
+  );
 }
 
 export default LoadingDot;
