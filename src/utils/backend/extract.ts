@@ -11,7 +11,7 @@ export const extractTextFromPDF = async (pdfPath: string) => {
     if (pdfData.text.trim()) {
       console.log("✅ Extracted text from PDF (without OCR):");
       console.log(pdfData.text);
-      // return pdfData.text; // Return if text is found
+      return pdfData.text; // Return if text is found
     }
   } catch (error) {
     console.error("Error parsing PDF:", error);

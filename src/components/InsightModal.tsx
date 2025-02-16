@@ -1,13 +1,30 @@
-import React from "react";
+"use";
+import React, { useEffect } from "react";
+import MarkdownRenderer from "./Markdown";
 
-function InsightModal({ message }: { message: string }) {
+function InsightModal({
+  message,
+  heading,
+  isMarkdown = false,
+}: {
+  message: string;
+  heading?: string;
+  isMarkdown?: boolean;
+}) {
+  useEffect(() => {
+    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    if (message && modal) {
+      console.log("Show Model");
+      modal.showModal(); // Show modal when a message is received
+    }
+  }, [message]);
   return (
     <div>
       <dialog id="my_modal_1" className="modal">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg dark:text-white">{message}kkkkk</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
+        <div className="modal-box scrollbar-hide">
+          {heading && <h3 className="font-bold text-lg">{heading}</h3>}
+          <p className="py-4 text-left">
+            {isMarkdown ? <MarkdownRenderer content={message} /> : `${message}`}
           </p>
           <div className="modal-action">
             <form method="dialog">

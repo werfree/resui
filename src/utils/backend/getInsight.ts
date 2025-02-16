@@ -18,7 +18,7 @@ Additionally, provide an overall evaluation of the resume’s strengths in full 
 
 Keep your entire response short and to the point.
 
-Ensure the response is strictly in MARKDOWN (.md) format and follows this structure:
+Ensure the response is strictly in MARKDOWN (.md) format and follows this structure and use markdown style to highlight key point or sections in your response. Styling is very important for user to get important information:
 '''md 
 
 ## Issues

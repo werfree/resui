@@ -10,6 +10,7 @@ import api from "@/utils/frontend/api";
 import { DefaultDataResponse, ResponseType } from "@/utils/responseType";
 import { HttpStatusCode } from "axios";
 import InsightModal from "@/components/InsightModal";
+import LoadingDot from "@/components/LoadingDot";
 
 interface CardProps {
   children: React.ReactNode;
@@ -33,7 +34,19 @@ interface ButtonProps {
   className?: string;
   onClick?: () => void;
 }
+const iMEssage = JSON.stringify(
+  `## Issues
 
+* The resume lacks a summary section to provide a concise overview of the candidate's key strengths and qualifications.
+* Work experience descriptions are vague and lack quantifiable results or specific examples of the candidate's contributions. For example, the role of "Design and build a backend for hospital management software" does not provide any tangible results or impact.
+* The skills section is just a list of technologies without any context or level of proficiency.
+
+## Strengths
+
+* The resume is well-structured and easy to follow.
+* It includes relevant education and work experience sections.
+* The candidate has received several awards and recognitions, highlighting their potential and accomplishments.`
+);
 const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
   <button
     onClick={onClick}
@@ -45,7 +58,9 @@ const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
 
 export default function LandingPage() {
   // const [file, setFile] = useState<File | null>(null);
-  const [insight, setInsight] = useState<string>("kk");
+  const [insight, setInsight] = useState<string>(
+    `## Heading\n\nThis is **bold** and _italic_.\n\n- Item 1\n- Item 2 \n ${iMEssage}`
+  );
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -55,7 +70,7 @@ export default function LandingPage() {
       const formData = new FormData();
       formData.append("resume", uploadedFile);
       const res = await api
-        .post<ResponseType<DefaultDataResponse>>("/upload", formData, {
+        .post<ResponseType<DefaultDataResponse>>("/resume", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         })
         .catch((e) => console.error(e));
@@ -85,7 +100,13 @@ export default function LandingPage() {
               {LANDING_HEADER_SECOND}.
             </span>
           </h1>
-          {insight !== "" && <InsightModal message={insight} />}
+          {insight !== "" && (
+            <InsightModal
+              message={insight}
+              heading="Resume Insight"
+              isMarkdown
+            />
+          )}
           <p className="mt-8 text-gray-700 dark:text-gray-300">
             {LANDING_BODY}
           </p>
@@ -99,9 +120,11 @@ export default function LandingPage() {
                 id="resume-upload"
                 type="file"
                 className="hidden"
+                disabled
                 onChange={handleFileUpload}
               />
               <span className="relative text-base font-semibold text-white">
+                <LoadingDot />
                 Upload Resume
               </span>
             </label>
