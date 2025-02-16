@@ -8,6 +8,13 @@ const nextConfig: NextConfig = {
     loader: "imgix",
     path: "https://code.werfree.fun/proxy/3000/",
   },
+  serverExternalPackages: ["pdf-parse", "tesseract.js"],
+  future: { webpack5: true },
+  webpack: (config) => {
+    config.resolve.alias.canvas = false;
+    config.resolve.alias.encoding = false;
+    return config;
+  },
 };
 
 export default nextConfig;

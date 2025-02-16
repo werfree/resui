@@ -1,8 +1,9 @@
 import { initializeUploadsDirectory, saveFile } from "@/utils/backend/savefile";
-import { extractTextFromPDF } from "@/utils/backend/extract";
+import { extractTextFromPDF } from "@/app/api/upload/extract";
 import { NextRequest, NextResponse } from "next/server";
 import { getResumeInsight } from "@/utils/backend/getInsight";
-
+import fs from "fs";
+import PdfParse from "pdf-parse";
 initializeUploadsDirectory();
 
 export async function POST(req: NextRequest) {
@@ -15,12 +16,13 @@ export async function POST(req: NextRequest) {
     }
 
     const { filePath } = await saveFile(file);
+    const pdfBuffer = fs.readFileSync(filePath);
     const resumeText = await extractTextFromPDF(filePath);
-    // const insight = await getResumeInsight(resumeText);
+    const insight = await getResumeInsight(resumeText);
     // console.log(insight);
 
     return NextResponse.json({
-      message: resumeText,
+      message: insight,
     });
   } catch (error) {
     console.error(error);

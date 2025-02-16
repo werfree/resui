@@ -9,6 +9,7 @@ import {
 import api from "@/utils/frontend/api";
 import { DefaultDataResponse, ResponseType } from "@/utils/responseType";
 import { HttpStatusCode } from "axios";
+import InsightModal from "@/components/InsightModal";
 
 interface CardProps {
   children: React.ReactNode;
@@ -44,7 +45,7 @@ const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
 
 export default function LandingPage() {
   // const [file, setFile] = useState<File | null>(null);
-  // const [summary, setSummary] = useState<string>("");
+  const [insight, setInsight] = useState<string>("kk");
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -62,6 +63,7 @@ export default function LandingPage() {
         const responseData = res?.data;
         const message = responseData?.message ?? "File Uploaded Sussfully";
         console.log(message);
+        setInsight(message);
       }
     }
   };
@@ -83,6 +85,7 @@ export default function LandingPage() {
               {LANDING_HEADER_SECOND}.
             </span>
           </h1>
+          {insight !== "" && <InsightModal message={insight} />}
           <p className="mt-8 text-gray-700 dark:text-gray-300">
             {LANDING_BODY}
           </p>
@@ -92,7 +95,7 @@ export default function LandingPage() {
               className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
             >
               <input
-                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, image/png, image/jpeg, image/jpg"
                 id="resume-upload"
                 type="file"
                 className="hidden"
