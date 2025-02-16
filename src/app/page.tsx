@@ -1,6 +1,14 @@
 "use client";
 import { useState } from "react";
 import { UploadCloud, CheckCircle } from "lucide-react";
+import {
+  LANDING_BODY,
+  LANDING_HEADER,
+  LANDING_HEADER_SECOND,
+} from "@/utils/frontend/allHeading";
+import api from "@/utils/frontend/api";
+import { DefaultDataResponse, ResponseType } from "@/utils/responseType";
+import { HttpStatusCode } from "axios";
 
 interface CardProps {
   children: React.ReactNode;
@@ -35,59 +43,76 @@ const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
 );
 
 export default function LandingPage() {
-  const [file, setFile] = useState<File | null>(null);
-  const [summary, setSummary] = useState<string>("");
+  // const [file, setFile] = useState<File | null>(null);
+  // const [summary, setSummary] = useState<string>("");
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const uploadedFile = event.target.files?.[0];
     if (uploadedFile) {
-      setFile(uploadedFile);
-      // Simulated summary generation
-      setSummary("This is a brief summary extracted from your resume.");
+      const formData = new FormData();
+      formData.append("resume", uploadedFile);
+      const res = await api
+        .post<ResponseType<DefaultDataResponse>>("/upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .catch((e) => console.error(e));
+      if (res && res?.status === HttpStatusCode.Ok) {
+        const responseData = res?.data;
+        const message = responseData?.message ?? "File Uploaded Sussfully";
+        console.log(message);
+      }
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center ">
-      <h1 className="text-4xl font-bold mb-6 text-pink-400">
-        Your Resume, Refined. Your Career, Defined.
-      </h1>
-      <Card className="w-full max-w-lg neomorphic">
-        <CardContent className="flex flex-col items-center">
-          <label
-            htmlFor="file-upload"
-            className="flex flex-col items-center justify-center w-full h-48 border-2 border-gray-600 border-dashed rounded-lg cursor-pointer hover:border-pink-400 transition-all p-4 bg-gray-900 neomorphic"
-          >
-            {file ? (
-              <CheckCircle className="text-green-400 w-12 h-12 mb-2" />
-            ) : (
-              <UploadCloud className="text-pink-400 w-12 h-12 mb-2" />
-            )}
-            <span className="text-sm text-gray-400">
-              {file ? file.name : "Click to upload your resume"}
+    <div className="relative" id="home">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20"
+      >
+        <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-100 dark:from-blue-700"></div>
+        <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-100 dark:to-indigo-600"></div>
+      </div>
+      <div className="relative pt-36 ml-auto">
+        <div className="lg:w-2/3 text-center mx-auto">
+          <h1 className="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">
+            {LANDING_HEADER}{" "}
+            <span className="text-primary dark:text-white">
+              {LANDING_HEADER_SECOND}.
             </span>
-          </label>
-          <input
-            id="file-upload"
-            type="file"
-            className="hidden"
-            onChange={handleFileUpload}
-          />
-
-          {summary && (
-            <div className="mt-4 p-4 w-full text-center bg-gray-700 rounded-lg text-white shadow-md">
-              <p className="text-sm">{summary}</p>
-            </div>
-          )}
-
-          <Button
-            className="mt-4 bg-pink-500 hover:bg-pink-600 text-white"
-            onClick={() => alert("Feedback Coming Soon!")}
-          >
-            Get Feedback
-          </Button>
-        </CardContent>
-      </Card>
+          </h1>
+          <p className="mt-8 text-gray-700 dark:text-gray-300">
+            {LANDING_BODY}
+          </p>
+          <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
+            <label
+              htmlFor="resume-upload"
+              className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+            >
+              <input
+                accept="application/pdf, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                id="resume-upload"
+                type="file"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
+              <span className="relative text-base font-semibold text-white">
+                Upload Resume
+              </span>
+            </label>
+            <a
+              href="#"
+              className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
+            >
+              <span className="relative text-base font-semibold text-primary dark:text-white">
+                Sign In
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

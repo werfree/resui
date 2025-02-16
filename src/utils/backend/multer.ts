@@ -1,5 +1,5 @@
 import multer from "multer";
-import { UPLOAD_DIR } from "./getEnvVariable";
+import { UPLOAD_DIR } from "../getEnvVariable";
 import { promisify } from "util";
 import { NextRequest } from "next/server";
 
