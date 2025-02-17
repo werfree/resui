@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Urbanist } from "next/font/google";
 import "./globals.css";
+import Footer from "@/components/Footer";
 
 const urbanist = Urbanist({
   subsets: ["latin"],
@@ -34,9 +35,19 @@ export default function RootLayout({
   return (
     <html lang="en" className={urbanist.className}>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} h-screen antialiased bg-white dark:bg-gray-950 p-6`}
+        className={`${geistSans.variable} ${geistMono.variable} flex flex-col min-h-screen  antialiased bg-white dark:bg-gray-950 p-6`}
       >
-        {children}
+        <main className="flex-grow">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 grid grid-cols-2 -space-x-52 opacity-40 dark:opacity-20"
+          >
+            <div className="blur-[106px] h-56 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-400"></div>
+            <div className="blur-[106px] h-32 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-300"></div>
+          </div>
+          {children}
+        </main>
+        <Footer />
       </body>
     </html>
   );

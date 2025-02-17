@@ -11,6 +11,9 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: "rgb(79, 70, 229)", // Equivalent to Tailwind's indigo-600
+        secondary: "rgb(234, 88, 12)", // Equivalent to Tailwind's orange-600
+        info: "rgb(37, 99, 235)",
       },
       animation: {
         tilt: "tilt 3s linear infinite",
