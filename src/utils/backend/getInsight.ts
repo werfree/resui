@@ -1,4 +1,4 @@
-import { AI_MODEL, getAIResponse } from "./aiApi";
+import { AI_MODEL, getAIResponse } from './aiApi';
 
 const INSIGHT_PROMPT = `Hi Gemini, you are an HR Recruiter responsible for shortlisting resumes for a specific role in your organization. Follow the instructions carefully and think step by step to ensure accurate evaluation.
 Task Overview:
@@ -49,9 +49,9 @@ export const getResumeInsight = async (resumeText: string) => {
   const aiResponse = await getAIResponse(llmMessage, AI_MODEL.geminiPro).catch(
     (e) => {
       console.error(e);
-      const error = Error("Failed to get Insight");
+      const error = Error('Failed to get Insight');
       throw error;
-    }
+    },
   );
   return aiResponse;
 };

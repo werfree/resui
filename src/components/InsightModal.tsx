@@ -1,6 +1,6 @@
-"use";
-import React, { useEffect } from "react";
-import MarkdownRenderer from "./Markdown";
+'use';
+import React, { useEffect } from 'react';
+import MarkdownRenderer from './Markdown';
 
 function InsightModal({
   message,
@@ -12,9 +12,9 @@ function InsightModal({
   isMarkdown?: boolean;
 }) {
   useEffect(() => {
-    const modal = document.getElementById("my_modal_1") as HTMLDialogElement;
+    const modal = document.getElementById('my_modal_1') as HTMLDialogElement;
     if (message && modal) {
-      console.log("Show Model");
+      console.log('Show Model');
       modal.showModal(); // Show modal when a message is received
     }
   }, [message]);
