@@ -37,8 +37,7 @@ interface ButtonProps {
   className?: string;
   onClick?: () => void;
 }
-const iMEssage = JSON.stringify(
-  `## Issues
+const iMEssage = `## Issues
 
 * The resume lacks a summary section to provide a concise overview of the candidate's key strengths and qualifications.
 * Work experience descriptions are vague and lack quantifiable results or specific examples of the candidate's contributions. For example, the role of "Design and build a backend for hospital management software" does not provide any tangible results or impact.
@@ -48,8 +47,7 @@ const iMEssage = JSON.stringify(
 
 * The resume is well-structured and easy to follow.
 * It includes relevant education and work experience sections.
-* The candidate has received several awards and recognitions, highlighting their potential and accomplishments.`
-);
+* The candidate has received several awards and recognitions, highlighting their potential and accomplishments.`;
 const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
   <button
     onClick={onClick}
@@ -61,9 +59,9 @@ const Button: React.FC<ButtonProps> = ({ children, className, onClick }) => (
 
 export default function LandingPage() {
   // const [file, setFile] = useState<File | null>(null);
-  // const [insight, setInsight] = useState<string>(`${iMEssage.slice(1, -1)}`);
+  const [insight, setInsight] = useState<string>(`${iMEssage.slice(1, -1)}`);
   const [loadingMessage, setLoadingMessage] = useState<string>("");
-  const [insight, setInsight] = useState<string>("");
+  // const [insight, setInsight] = useState<string>("");
 
   const handleFileUpload = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -105,10 +103,10 @@ export default function LandingPage() {
       )}
       <div className="relative pt-36 ml-auto">
         <div className="lg:w-2/3 text-center mx-auto">
-          <h1 className="text-gray-900 text-balance dark:text-white font-bold text-5xl md:text-6xl xl:text-7xl">
+          <h1 className="text-gray-900 text-balance dark:text-white font-bold text-4xl md:text-6xl xl:text-7xl">
             {LANDING_HEADER}{" "}
-            <span className="text-primary dark:text-white">
-              {LANDING_HEADER_SECOND}.
+            <span className="text-primary dark:text-purple-400">
+              {LANDING_HEADER_SECOND}
             </span>
           </h1>
           {insight !== "" && (
@@ -118,7 +116,7 @@ export default function LandingPage() {
               isMarkdown
             />
           )}
-          <p className="mt-8 text-gray-700 dark:text-gray-300">
+          <p className="mt-8 font-semibold text-gray-700 dark:text-gray-300">
             {LANDING_BODY}
           </p>
           <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">

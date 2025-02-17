@@ -1,5 +1,4 @@
 import fs from "fs";
-import path from "path";
 import pdfParse from "pdf-parse";
 import { createWorker } from "tesseract.js";
 

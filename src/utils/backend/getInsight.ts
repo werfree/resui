@@ -38,7 +38,7 @@ Your response must be in Markdown (.md) format for proper styling. Use bold, bul
 ## Strengths
 - Clearly written description of the positive aspects of the resume.
 '''
-Ensure the feedback is concise, to the point, and impactful. Now, analyze the following text:
+Ensure the feedback is concise, to the point, and impactful and in English not in any other language. Now, analyze the following text:
 
 `;
 
