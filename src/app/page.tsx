@@ -13,6 +13,8 @@ import { HttpStatusCode } from 'axios';
 import InsightModal from '@/components/InsightModal';
 import LoadingDot from '@/components/LoadingDot';
 import Alert from '@/components/Alert';
+import { SIGNIN_URL } from '@/utils/frontend/frontendConstant';
+import { LightLink } from '@/components/LinkButton';
 
 // interface CardProps {
 //   children: React.ReactNode;
@@ -108,9 +110,7 @@ export default function LandingPage() {
               isMarkdown
             />
           )}
-          <p className="mt-8 font-semibold text-gray-700 dark:text-gray-300">
-            {LANDING_BODY}
-          </p>
+          <p className="mt-8 font-semibold text-bg">{LANDING_BODY}</p>
           <div className="mt-16 flex flex-wrap justify-center gap-y-4 gap-x-6">
             <label
               htmlFor="resume-upload"
@@ -128,14 +128,11 @@ export default function LandingPage() {
                 {loadingMessage.length ? <LoadingDot /> : 'Upload Resume'}
               </span>
             </label>
-            <a
-              href="#"
-              className="relative flex h-11 w-full items-center justify-center px-6 before:absolute before:inset-0 before:rounded-full before:border before:border-transparent before:bg-primary/10 before:bg-gradient-to-b before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 dark:before:border-gray-700 dark:before:bg-gray-800 sm:w-max"
-            >
+            <LightLink link={SIGNIN_URL}>
               <span className="relative text-base font-semibold text-primary dark:text-white">
                 Sign In
               </span>
-            </a>
+            </LightLink>
           </div>
         </div>
       </div>

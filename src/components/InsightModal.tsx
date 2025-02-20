@@ -22,8 +22,14 @@ function InsightModal({
     <div>
       <dialog id="my_modal_1" className="modal">
         <div className="  modal-box focus:outline-none focus:ring-0 scrollbar-hide shadow-xl dark:shadow-md dark:shadow-purple-400 dark:bg-gray-900 rounded-badge">
-          <div className="blur-[106px] h-5 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-400"></div>
-          <div className="blur-[106px] h-5 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-300"></div>
+          <div
+            className="absolute blur-[106px] h-5 bg-gradient-to-br from-primary to-purple-400 dark:from-blue-400"
+            style={{ width: "inherit" }}
+          ></div>
+          <div
+            className="absolute blur-[106px] h-5 bg-gradient-to-r from-cyan-400 to-sky-300 dark:to-indigo-300"
+            style={{ width: "inherit" }}
+          ></div>
           {heading && (
             <h3 className="font-bold text-2xl animate-tilt">{heading}</h3>
           )}
